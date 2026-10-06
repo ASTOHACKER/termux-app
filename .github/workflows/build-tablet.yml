@@ -1,0 +1,30 @@
+name: Build Termux Tablet Edition
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build debug APKs
+        run: ./gradlew assembleDebug --stacktrace
+        env:
+          JITPACK_NDK_VERSION: 29.0.14206865
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: termux-tablet-apks
+          path: app/build/outputs/apk/debug/*.apk

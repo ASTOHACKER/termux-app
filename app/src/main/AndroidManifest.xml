@@ -12,6 +12,17 @@
         android:name="android.software.leanback"
         android:required="false" />
 
+    <!-- Termux Tablet Edition: explicitly declare large/xlarge screen support.
+         Without this, Huawei/HarmonyOS tablets may treat the app as a legacy
+         phone app and letterbox it into a narrow portrait container in landscape. -->
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
     <permission
         android:name="${TERMUX_PACKAGE_NAME}.permission.RUN_COMMAND"
         android:description="@string/permission_run_command_description"
@@ -56,8 +67,10 @@
             android:label="@string/application_name"
             android:launchMode="singleTask"
             android:resizeableActivity="true"
+            android:maxAspectRatio="10.0"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.TermuxActivity.DayNight.NoActionBar"
-            tools:targetApi="n">
+            tools:targetApi="o">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
